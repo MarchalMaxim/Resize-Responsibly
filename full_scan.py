@@ -7,7 +7,7 @@ MAX_ITER = 1000
 ########## YOUR SITE BASE ADDRESS HERE #################
 ########## E.G. site.nl                #################
 ########################################################
-ROOT_DOMAIN = 'kuipris.nl'
+ROOT_DOMAIN = 'example.com'
 
 visited = set()
 discovered = set()
