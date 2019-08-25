@@ -3,7 +3,7 @@ from urllib.parse import urlparse
 import os
 import time
 import tldextract as tld
-from window_sizes import get_window_sizes
+from crawl_util.window_sizes import get_window_sizes
 driver_path = 'chromedriver.exe'
 browser = webdriver.Chrome(driver_path)
 window_sizes = get_window_sizes()
