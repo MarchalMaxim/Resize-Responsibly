@@ -10,4 +10,5 @@ When you're done, unpack the .exe and place it in your IDE repository.
 
 ## Usage
 Run HelloWorld.py to see a minimum example of what is done.
-To get a full website scan, change the variable ROOT_DOMAIN to what you want.
+To get a full website scan, change the variable ROOT_DOMAIN in the full_scan.py file to whatever you want.
+For example, if you want to scan https://google.com, set ROOT_DOMAIN = 'google.com'
