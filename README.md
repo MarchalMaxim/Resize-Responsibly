@@ -10,5 +10,10 @@ When you're done, unpack the .exe and place it in your IDE repository.
 
 ## Usage
 Run HelloWorld.py to see a minimum example of what is done.
+
 To get a full website scan, change the variable ROOT_DOMAIN in the full_scan.py file to whatever you want.
 For example, if you want to scan https://google.com, set ROOT_DOMAIN = 'google.com'
+
+# Viewports
+You can define the viewports you want by altering the schermafmetingen.txt file in crawl_util > schermafmetingen.txt
+The format for adding new viewports is by adding a new line with viewportname;width;height
