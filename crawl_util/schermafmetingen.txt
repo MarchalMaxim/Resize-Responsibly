@@ -1,0 +1,7 @@
+desktop small;1280;800
+desktop medium;1366;768
+desktop large; 1920; 1080
+ipad portrait;768;1024
+ipad landscape; 1024; 768
+iphone 6/7/8 portrait;375;667
+iphone 6/7/8 landscape;667;375

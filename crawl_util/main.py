@@ -4,14 +4,11 @@ from selenium.webdriver.common.by import By
 import os
 import time
 import tldextract as tld
+from window_sizes import get_window_sizes
 driver_path = 'chromedriver.exe'
 browser = webdriver.Chrome(driver_path)
 
-window_sizes = {
-        'mobile': (400, 667),
-        'desktop': (420, 420),
-        'tablet': (1127,754)
-    }
+window_sizes = get_window_sizes()
 
 def discover_links_from_endpoint(endpoint, ROOT_DOMAIN="kuipris.nl"):
 
@@ -39,13 +36,13 @@ def crawl_endpoints(endpoints, base_screenshot_dir="", ROOT_DOMAIN='https://kuip
     for index, ep in enumerate(endpoints):
         if crawled >= max_pages:
             break
-        endpoint_directory = '{}/{}'.format(base_screenshot_dir, ep)
         full_url = urlparse(ep)
         browser.get(full_url.geturl())
         for device in window_sizes.items():
             device_name, size = device
             height, width = size
             browser.set_window_size(height, width)
+            browser.set_window_position(0, 0)
             screengrab_path = '{}/{}/Screenshot{}.png'.format(container_directory, device_name, index)
             browser.get_screenshot_as_file(screengrab_path)
             crawled += 1
