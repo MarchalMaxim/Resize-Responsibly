@@ -1,34 +1,39 @@
 # Does a full breadth-first search on a webpage.
 from crawl_util.crawling_tools import discover_links_from_endpoint, crawl_endpoints
-
-MAX_ITER = 250
+from urllib.parse import urldefrag
+MAX_ITER = 1000
 
 ########################################################
 ########## YOUR SITE BASE ADDRESS HERE #################
 ########## E.G. site.nl                #################
 ########################################################
-ROOT_DOMAIN = ''
+ROOT_DOMAIN = 'kuipris.nl'
 
 visited = set()
-tovisit = set()
+discovered = set()
 
 # Genesis
 outgoing = discover_links_from_endpoint('', ROOT_DOMAIN)
 for link in outgoing:
-    tovisit.add(link)
+    # Remove fragment fromt the link (efficiency)
+    discovered.add(urldefrag(link)[0])
 
-while len(tovisit) is not 0:
+while True:
     # Get a list of unvisited nodes
-    outgoing = [link for link in tovisit if link not in visited]
-
+    unvisited = [link for link in discovered if urldefrag(link)[0] not in visited]
+    if len(unvisited) is 0:
+        print('Site crawled!')
+        break
+    else:
+        print(str(len(unvisited)) + ' unvisited links left.')
     # Add new endpoints to the queue
-    for link in outgoing:
-        for discovered in discover_links_from_endpoint(link, ROOT_DOMAIN=ROOT_DOMAIN):
-            tovisit.add(discovered)
-        visited.add(link)
+    for link in unvisited:
+        for outgoing_link in discover_links_from_endpoint(link, ROOT_DOMAIN=ROOT_DOMAIN):
+            discovered.add(urldefrag(outgoing_link)[0])
+        visited.add(urldefrag(link)[0])
     #  ^ Intend on visiting links in outgoing, by adding them to the visited list
 
     # Actually visit them
-    crawl_endpoints(list(tovisit), max_pages=1000)
+    crawl_endpoints(list(unvisited), max_pages=MAX_ITER)
 
 print('visited '+str(len(visited))+' web pages')
