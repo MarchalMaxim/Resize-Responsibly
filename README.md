@@ -1,5 +1,5 @@
 # webcrawler
-Webcrawler that takes screenshots of pages it has visited.
+Webcrawler that takes screenshots of different viewports of pages it has visited.
 
 ## Installation
 1. You need a webdriver for your favorite browser. This project only supports Chrome 76 at the moment.
@@ -10,3 +10,4 @@ When you're done, unpack the .exe and place it in your IDE repository.
 
 ## Usage
 Run HelloWorld.py to see a minimum example of what is done.
+To get a full website scan, change the variable ROOT_DOMAIN to what you want.

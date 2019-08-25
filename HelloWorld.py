@@ -1,4 +1,4 @@
-from crawl_util.main import crawl_endpoints, discover_links_from_endpoint
+from crawl_util.crawling_tools import crawl_endpoints, discover_links_from_endpoint
 
-links = discover_links_from_endpoint('','kuipris.nl')
+links = discover_links_from_endpoint('', 'google.com')
 crawl_endpoints(links, max_pages=200)
