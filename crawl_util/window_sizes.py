@@ -1,6 +1,5 @@
 # Exports window sizes as a dictionary: {device_name => (height, width)}
 import csv
-import re
 window_sizes = {}
 with open('crawl_util/schermafmetingen.txt', 'r') as f:
     reader = csv.reader(f, delimiter=';')

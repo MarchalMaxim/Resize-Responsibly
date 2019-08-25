@@ -1,6 +1,5 @@
 from selenium import webdriver
 from urllib.parse import urlparse
-from selenium.webdriver.common.by import By
 import os
 import time
 import tldextract as tld
@@ -11,7 +10,6 @@ browser = webdriver.Chrome(driver_path)
 window_sizes = get_window_sizes()
 
 def discover_links_from_endpoint(endpoint, ROOT_DOMAIN="kuipris.nl"):
-
     full_url = 'https://{}/{}'.format(ROOT_DOMAIN, endpoint)
     browser.get(full_url)
     anchors = browser.find_elements_by_tag_name('a')
@@ -43,10 +41,10 @@ def crawl_endpoints(endpoints, base_screenshot_dir="", ROOT_DOMAIN='https://kuip
             height, width = size
             browser.set_window_size(height, width)
             browser.set_window_position(0, 0)
-            screengrab_path = '{}/{}/Screenshot{}.png'.format(container_directory, device_name, index)
+            screengrab_path = '{}/{}/screen_{}.png'.format(container_directory, device_name, ''.join([c for c in full_url.path if c.isalnum()]))
             browser.get_screenshot_as_file(screengrab_path)
             crawled += 1
-print('Done')
+
 
 def main():
     # Crawl some webpages and take screenshots
