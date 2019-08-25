@@ -5,7 +5,9 @@ import time
 import tldextract as tld
 from crawl_util.window_sizes import get_window_sizes
 driver_path = 'chromedriver.exe'
-browser = webdriver.Chrome(driver_path)
+options = webdriver.ChromeOptions()
+options.headless=True
+browser = webdriver.Chrome(driver_path,options=options)
 window_sizes = get_window_sizes()
 
 t = time.localtime()
@@ -32,10 +34,13 @@ def discover_links_from_endpoint(endpoint, ROOT_DOMAIN="kuipris.nl"):
 def crawl_endpoints(endpoints, base_screenshot_dir="", ROOT_DOMAIN='https://kuipris.nl/',  max_pages=10):
     crawled = 0
     for index, ep in enumerate(endpoints):
+        full_url = urlparse(ep)
         if crawled >= max_pages:
             print('! Max number of pages reached, aborting !')
             break
-        full_url = urlparse(ep)
+        if full_url.geturl().endswith('.png') or full_url.geturl().endswith('.jpg'):
+            print('Skipped image: '+full_url.geturl())
+            break
         print('visiting: '+full_url.geturl())
         browser.get(full_url.geturl())
         for device in window_sizes.items():
@@ -43,7 +48,9 @@ def crawl_endpoints(endpoints, base_screenshot_dir="", ROOT_DOMAIN='https://kuip
             height, width = size
             browser.set_window_size(height, width)
             screengrab_path = '{}/{}/screen_{}.png'.format(container_directory, device_name, ''.join([c for c in full_url.path if c.isalnum()]))
-            browser.get_screenshot_as_file(screengrab_path)
+            S = lambda X: browser.execute_script('return document.body.parentNode.scroll' + X)
+            browser.set_window_size(S('Width'), S('Height'))  # May need manual adjustment
+            browser.find_element_by_tag_name('body').screenshot(screengrab_path)
             crawled += 1
 
 
