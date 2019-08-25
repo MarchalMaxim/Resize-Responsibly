@@ -33,7 +33,7 @@ while True:
         visited.add(urldefrag(link)[0])
     #  ^ Intend on visiting links in outgoing, by adding them to the visited list
 
-    # Actually visit them
+    # Actually visit them and write screenshots to disk.
     crawl_endpoints(list(unvisited), max_pages=MAX_ITER)
 
 print('visited '+str(len(visited))+' web pages')
