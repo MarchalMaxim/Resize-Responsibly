@@ -41,6 +41,10 @@ def _validate_url(full_url):
     return True
 
 
+def done():
+    browser.close()
+
+
 def crawl_endpoints(endpoints, base_screenshot_dir="", ROOT_DOMAIN='google.com',  max_pages=10):
     crawled = 0
     for index, ep in enumerate(endpoints):
