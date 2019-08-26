@@ -7,7 +7,7 @@ MAX_ITER = 1000
 ########## YOUR SITE BASE ADDRESS HERE #################
 ########## E.G. site.nl                #################
 ########################################################
-ROOT_DOMAIN = 'kuipris.nl'
+ROOT_DOMAIN = 'google.com'
 
 visited = set()
 discovered = set()
@@ -36,4 +36,4 @@ while True:
     # Actually visit them and write screenshots to disk.
     crawl_endpoints(list(unvisited), max_pages=MAX_ITER)
 
-print('visited '+str(len(visited))+' web pages')
+print('Indexed '+str(len(visited))+' web pages')
