@@ -17,3 +17,8 @@ For example, if you want to scan https://google.com, set ROOT_DOMAIN = 'google.c
 # Viewports
 You can define the viewports you want by altering the schermafmetingen.txt file in crawl_util > schermafmetingen.txt
 The format for adding new viewports is by adding a new line with viewportname;width;height
+
+# Ignore certain extensions
+You can choose to not crawl resources linking to files of a certain filetype. Put these extensions in ignored_extensions.csv like so:
+png, pdf, jpeg
+etc.
