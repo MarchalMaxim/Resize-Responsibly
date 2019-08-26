@@ -1,5 +1,5 @@
 # Does a full breadth-first search on a webpage.
-from crawl_util.crawling_tools import discover_links_from_endpoint, crawl_endpoints
+from crawl_util.crawling_tools import discover_links_from_endpoint, crawl_endpoints, done
 from urllib.parse import urldefrag
 MAX_ITER = 1000
 
@@ -37,3 +37,4 @@ while True:
     crawl_endpoints(list(unvisited), max_pages=MAX_ITER)
 
 print('Indexed '+str(len(visited))+' web pages')
+done()
