@@ -3,18 +3,18 @@ from urllib.parse import urlparse
 import os
 import time
 import tldextract as tld
-from crawl_util.window_sizes import get_window_sizes
+from crawl_util.load_config import get_window_sizes, get_ignored_extensions
 driver_path = 'chromedriver.exe'
 options = webdriver.ChromeOptions()
-options.headless=True
+options.headless = True
 browser = webdriver.Chrome(driver_path,options=options)
-window_sizes = get_window_sizes()
 ignored_extensions = ['.pdf', '.png', '.jpg', '.jpeg', '.docx']
 t = time.localtime()
 container_directory = 'crawl{}_{}_{}'.format(t.tm_hour, t.tm_min, t.tm_sec)
 os.mkdir(container_directory, 0o755)
-for device_name in window_sizes.keys():
+for device_name in get_window_sizes().keys():
     os.mkdir(container_directory + '/' + device_name, 0o755)
+
 
 def discover_links_from_endpoint(endpoint, ROOT_DOMAIN="kuipris.nl"):
     if endpoint is None:
@@ -40,20 +40,15 @@ def crawl_endpoints(endpoints, base_screenshot_dir="", ROOT_DOMAIN='https://kuip
             break
 
         # Deciding whether we want to visit this page or not:
-        try:
-            path, ext = full_url.path.split('.')
-        except:
-            ext = None
-        if ext in ignored_extensions:
-            print('Skipped extension: '+full_url.geturl())
-            continue
+        if any([full_url.path.endswith(ext) for ext in get_ignored_extensions()]):
+            print('Skipped page with ignored extension: ' + full_url.path)
 
         if full_url.scheme == 'mailto':
             print('Skipped mailto: '+full_url.geturl())
             continue
         print('visiting: '+full_url.geturl())
         browser.get(full_url.geturl())
-        for device in window_sizes.items():
+        for device in get_window_sizes().items():
             device_name, size = device
             height, width = size
             browser.set_window_size(height, width)
@@ -62,5 +57,3 @@ def crawl_endpoints(endpoints, base_screenshot_dir="", ROOT_DOMAIN='https://kuip
             browser.set_window_size(S('Width'), S('Height'))  # May need manual adjustment
             browser.find_element_by_tag_name('body').screenshot(screengrab_path)
             crawled += 1
-
-
