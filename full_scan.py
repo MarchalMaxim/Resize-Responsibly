@@ -1,6 +1,10 @@
 # Does a full breadth-first search on a webpage.
-from crawl_util.crawling_tools import discover_links_from_endpoint, crawl_endpoints, done
+import os
+import time
 from urllib.parse import urldefrag
+
+from crawl_util.crawling_tools import discover_links_from_endpoint, crawl_endpoints, done, get_window_sizes
+
 MAX_ITER = 1000
 
 ########################################################
@@ -11,6 +15,12 @@ ROOT_DOMAIN = 'google.com'
 
 visited = set()
 discovered = set()
+
+t = time.localtime()
+container_directory = 'Scan_{}_{}_{}'.format(ROOT_DOMAIN, t.tm_mon, t.tm_mday)
+os.mkdir(container_directory, 0o755)
+for device_name in get_window_sizes().keys():
+    os.mkdir(container_directory + '/' + device_name, 0o755)
 
 # Genesis
 outgoing = discover_links_from_endpoint('', ROOT_DOMAIN)
@@ -34,7 +44,7 @@ while True:
     #  ^ Intend on visiting links in outgoing, by adding them to the visited list
 
     # Actually visit them and write screenshots to disk.
-    crawl_endpoints(list(unvisited), max_pages=MAX_ITER)
+    crawl_endpoints(list(unvisited), max_pages=MAX_ITER, base_screenshot_dir=container_directory)
 
 print('Visited approximately {} web pages.')
 done()

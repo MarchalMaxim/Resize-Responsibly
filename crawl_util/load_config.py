@@ -1,6 +1,5 @@
 # Exports window sizes as a dictionary: {device_name => (height, width)}
 import csv
-import os
 # Caches results.
 window_sizes = {}
 ignored_extensions = []
