@@ -15,7 +15,7 @@ discovered = set()
 # Genesis
 outgoing = discover_links_from_endpoint('', ROOT_DOMAIN)
 for link in outgoing:
-    # Remove fragment fromt the link (efficiency)
+    # Remove fragment from the link (efficiency)
     discovered.add(urldefrag(link)[0])
 
 while True:
@@ -36,5 +36,5 @@ while True:
     # Actually visit them and write screenshots to disk.
     crawl_endpoints(list(unvisited), max_pages=MAX_ITER)
 
-print('Indexed '+str(len(visited))+' web pages')
+print('Visited approximately {} web pages.')
 done()
