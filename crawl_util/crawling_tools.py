@@ -8,11 +8,7 @@ driver_path = 'chromedriver.exe'
 options = webdriver.ChromeOptions()
 options.headless = True
 browser = webdriver.Chrome(driver_path, options=options)
-t = time.localtime()
-container_directory = 'Scan{}_{}_{}'.format(t.tm_hour, t.tm_min, t.tm_sec)
-os.mkdir(container_directory, 0o755)
-for device_name in get_window_sizes().keys():
-    os.mkdir(container_directory + '/' + device_name, 0o755)
+
 
 def discover_links_from_endpoint(endpoint, ROOT_DOMAIN="google.com"):
     if endpoint is None:
@@ -67,7 +63,7 @@ def crawl_endpoints(endpoints, base_screenshot_dir="", ROOT_DOMAIN='google.com',
             device_name, size = device
             height, width = size
             browser.set_window_size(height, width)
-            screengrab_path = '{}/{}/{}.png'.format(container_directory, device_name, _format_url(full_url))
+            screengrab_path = '{}/{}/{}.png'.format(base_screenshot_dir, device_name, _format_url(full_url))
             S = lambda X: browser.execute_script('return document.body.parentNode.scroll' + X)
             browser.set_window_size(S('Width'), S('Height'))  # May need manual adjustment
             browser.find_element_by_tag_name('body').screenshot(screengrab_path)
