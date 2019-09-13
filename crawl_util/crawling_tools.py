@@ -1,18 +1,12 @@
 from selenium import webdriver
 from urllib.parse import urlparse
-import os
-import time
 import tldextract as tld
 from crawl_util.load_config import get_window_sizes, get_ignored_extensions
 driver_path = 'chromedriver.exe'
 options = webdriver.ChromeOptions()
 options.headless = True
 browser = webdriver.Chrome(driver_path, options=options)
-t = time.localtime()
-container_directory = 'crawl{}_{}_{}'.format(t.tm_hour, t.tm_min, t.tm_sec)
-os.mkdir(container_directory, 0o755)
-for device_name in get_window_sizes().keys():
-    os.mkdir(container_directory + '/' + device_name, 0o755)
+
 
 def discover_links_from_endpoint(endpoint, ROOT_DOMAIN="google.com"):
     if endpoint is None:
@@ -41,6 +35,12 @@ def _validate_url(full_url):
     return True
 
 
+def _format_url(full_url):
+    # Returns a filesystem-safe pseudo-URL.
+    path = full_url.path
+    safe_path = ''.join(char if char.isalnum() else '_' for char in path)
+    return safe_path
+
 def done():
     browser.close()
 
@@ -61,7 +61,7 @@ def crawl_endpoints(endpoints, base_screenshot_dir="", ROOT_DOMAIN='google.com',
             device_name, size = device
             height, width = size
             browser.set_window_size(height, width)
-            screengrab_path = '{}/{}/screen_{}.png'.format(container_directory, device_name, ''.join([c for c in full_url.path if c.isalnum()]))
+            screengrab_path = '{}/{}/{}.png'.format(base_screenshot_dir, device_name, _format_url(full_url))
             S = lambda X: browser.execute_script('return document.body.parentNode.scroll' + X)
             browser.set_window_size(S('Width'), S('Height'))  # May need manual adjustment
             browser.find_element_by_tag_name('body').screenshot(screengrab_path)
