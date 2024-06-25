@@ -1,7 +1,7 @@
 from selenium import webdriver
 from urllib.parse import urlparse
 import tldextract as tld
-from crawl_util.load_config import get_window_sizes, get_ignored_extensions
+from legacy.crawl_util.load_config import get_window_sizes, get_ignored_extensions
 driver_path = 'chromedriver.exe'
 options = webdriver.ChromeOptions()
 options.headless = True

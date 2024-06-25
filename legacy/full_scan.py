@@ -31,7 +31,7 @@ for link in outgoing:
 while True:
     # Get a list of unvisited nodes
     unvisited = [link for link in discovered if urldefrag(link)[0] not in visited]
-    if len(unvisited) is 0:
+    if len(unvisited) == 0:
         print('Site crawled!')
         break
     else:
