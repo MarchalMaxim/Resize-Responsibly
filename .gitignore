@@ -1,0 +1,4 @@
+Scan*/*
+chromedriver.exe
+*.pyc
+*chromedriver*

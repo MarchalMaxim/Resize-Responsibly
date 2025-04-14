@@ -11,13 +11,13 @@ MAX_ITER = 1000
 ########## YOUR SITE BASE ADDRESS HERE #################
 ########## E.G. site.nl                #################
 ########################################################
-ROOT_DOMAIN = 'google.com'
+ROOT_DOMAIN = 'werkenbijafas.nl'
 
 visited = set()
 discovered = set()
 
 t = time.localtime()
-container_directory = 'Scan_{}_{}_{}'.format(ROOT_DOMAIN, t.tm_mon, t.tm_mday)
+container_directory = 'Scan_{}_{}_{}_{}_{}'.format(ROOT_DOMAIN, t.tm_mon, t.tm_mday, t.tm_hour, t.tm_min)
 os.mkdir(container_directory, 0o755)
 for device_name in get_window_sizes().keys():
     os.mkdir(container_directory + '/' + device_name, 0o755)
@@ -31,7 +31,7 @@ for link in outgoing:
 while True:
     # Get a list of unvisited nodes
     unvisited = [link for link in discovered if urldefrag(link)[0] not in visited]
-    if len(unvisited) is 0:
+    if len(unvisited) == 0:
         print('Site crawled!')
         break
     else:

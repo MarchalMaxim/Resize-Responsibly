@@ -6,7 +6,7 @@ ignored_extensions = []
 resolvepackage = lambda s: '' if s is None else s+'/'
 
 def get_window_sizes():
-    if len(window_sizes) is not 0:
+    if len(window_sizes) != 0:
         return window_sizes
     with open(resolvepackage(__package__)+'schermafmetingen.txt', 'r') as f:
         reader = csv.reader(f, delimiter=';')
@@ -18,7 +18,7 @@ def get_window_sizes():
 
 
 def get_ignored_extensions():
-    if len(ignored_extensions) is not 0:
+    if len(ignored_extensions) != 0:
         return ignored_extensions
     with open(resolvepackage(__package__)+'ignored_extensions.csv', 'r') as f:
         extensions = list(csv.reader(f, delimiter=','))
